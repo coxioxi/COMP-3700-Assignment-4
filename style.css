@@ -1,0 +1,56 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+#beach {
+    z-index: -1;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    background-size: cover;
+    object-fit: cover;
+    background-position: center;
+    transition: background-image 0.5s ease-in-out;
+}
+
+.info {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.slideshow {
+    position: relative;
+    text-align: center;
+    top: 1000px;
+}
+
+#slide {
+    border: 2px solid #000000;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.next-image, .random-image {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+#buttons {
+    position: relative;
+    text-align: center;
+    top: -2px;
+    margin: 0 auto;
+    width: 500px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px;
+    border-radius: 5px;
+}
