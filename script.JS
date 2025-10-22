@@ -1,3 +1,25 @@
+/*
+  1) Do you think your jQuery code is easier to read than the corresponding (pure) JavaScript code, or harder? Why?
+
+      For this program, the jQuery version is generally harder for me to read since I’m not very familiar with the jQuery API. 
+      Moreover, I believe modern vanilla JavaScript has become much more readable over time. 
+      However, for someone with more experience using jQuery, the jQuery version might actually be easier to understand. 
+      In short, the readability advantage really depends on the context and the programmer’s familiarity with each approach.
+
+  2) Is your jQuery program shorter than the corresponding (pure) JavaScript program?
+
+      Yes — in this example the jQuery version is shorter for common tasks like selecting elements, updating attributes/text,
+      binding events, and animations because jQuery combines multiple steps into single calls. The total file size difference is modest,
+      but lines of code are reduced where DOM work is frequent.
+
+  3) Are your answers to the above questions typical for comparisons of jQuery versus JavaScript in general? Why or why not?
+
+      These answers are typical historically: jQuery was created to make DOM manipulation, event handling, and animations
+      simpler and more consistent across browsers, so it's often both easier to read and shorter compared to older vanilla JS.
+      However, since modern browsers standardized many APIs and ES6+ added features, native JS has closed the gap. For quick DOM-heavy
+      scripts jQuery still offers concise, expressive code; for modern apps, native JS or small utility libraries are often preferred.
+*/
+
 function Image(url, alt, description) {
     this.URL = url;
     this.attributeValue = alt;
@@ -161,7 +183,7 @@ $(function() {
 
     function randomImage() {
         let randomIndex = Math.floor(Math.random() * slides.length);
-        // only avoid repeating the same index immediately
+        // Only avoid repeating the same index immediately
         while (randomIndex === previousIndex) {
             randomIndex = Math.floor(Math.random() * slides.length);
         }
