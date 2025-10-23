@@ -48,64 +48,9 @@ let night = new Image("images/night.jpeg", "Night", "A tranquil night scene with
 let images = [morning1 ,morning, noon, evening1, evening, night];
 let slides = [morning, morning1, noon, evening1, evening, night];
 
-function setBackground(images) {
-    let currentHour = new Date().getHours();
-    let index;
-
-    if (currentHour >= 5 && currentHour < 9) {
-        index = 0; // Morning1
-    } else if (currentHour >= 9 && currentHour < 12) {
-        index = 1; // Morning
-    } else if (currentHour >= 12 && currentHour < 14) {
-        index = 2; // Noon
-    } else if (currentHour >= 14 && currentHour < 17) {
-        index = 3; // Noon1
-    } else if (currentHour >= 17 && currentHour < 19) {
-        index = 4; // Evening
-    } else {
-        index = 5; // Night
-    }
-
-    document.getElementById("beach").src = images[index].getURL();
-    document.getElementById("beach").setAttribute("alt", images[index].getAttributeValue());
-    document.getElementById("description").textContent = images[index].getDescription();
-    document.getElementById("time").textContent = new Date().toLocaleTimeString();
-    document.getElementById("date").textContent = new Date().toLocaleDateString();
-}
-
-function nextImage() {
-    let currentSrc = document.getElementById("slide").src;
-    let currentIndex = slides.findIndex(image => currentSrc.includes(image.getURL()));
-    let nextIndex = (currentIndex + 1) % slides.length;
-    document.getElementById("slide").src = slides[nextIndex].getURL();
-    document.getElementById("slide").setAttribute("alt", slides[nextIndex].getAttributeValue());
-    document.getElementById("slide-description").textContent = slides[nextIndex].getDescription();
-}
-
-let previousIndex = -1;
-function randomImage() {
-    let randomIndex = Math.floor(Math.random() * (slides.length));
-    
-    while (randomIndex === previousIndex || randomIndex === 0) {
-        randomIndex = Math.floor(Math.random() * (slides.length));
-    }
-
-    document.getElementById("slide").src = slides[randomIndex].getURL();
-    document.getElementById("slide").setAttribute("alt", slides[randomIndex].getAttributeValue());
-    document.getElementById("slide-description").textContent = slides[randomIndex].getDescription();
-    
-    previousIndex = randomIndex;
-}
-
-function setSlideShow(slides) {
-    document.getElementById("slide").src = slides[0].getURL();
-    document.getElementById("slide").setAttribute("alt", slides[0].getAttributeValue());
-    document.getElementById("slide-description").textContent = slides[0].getDescription();
-}
-
-// jQuery-enhanced behaviors and improvements
+// jQuery
 $(function() {
-    // Cache selectors
+
     const $beach = $('#beach');
     const $time = $('#time');
     const $date = $('#date');
@@ -115,17 +60,14 @@ $(function() {
     const $nextBtn = $('#next-image');
     const $randomBtn = $('#random-image');
 
-    // Accessibility: announce dynamic changes
     $description.attr('aria-live', 'polite');
     $slideDescription.attr('aria-live', 'polite');
 
-    // Preload slideshow images
     slides.forEach(s => {
         const img = new Image();
         img.src = s.getURL();
     });
 
-    // Internal state to avoid unnecessary background reloads
     let lastBackgroundHour = new Date().getHours();
 
     function setBackgroundWithFade(images) {
@@ -147,8 +89,7 @@ $(function() {
             index = 5; // Night
         }
 
-        // Only change the background image when the hour bucket changes
-        if (currentHour !== lastBackgroundHour) {
+        if (currentHour !== lastBackgroundHour || !$beach.attr('src')) {
             $beach.stop(true, true).fadeOut(300, function() {
                 $beach.attr('src', images[index].getURL())
                       .attr('alt', images[index].getAttributeValue())
@@ -158,12 +99,10 @@ $(function() {
             lastBackgroundHour = currentHour;
         }
 
-        // Always update time & date every call
         $time.text(now.toLocaleTimeString());
         $date.text(now.toLocaleDateString());
     }
 
-    // Slide helper to change with fade
     function setSlide(index) {
         const s = slides[index];
         $slide.stop(true, true).fadeOut(200, function() {
@@ -183,7 +122,6 @@ $(function() {
 
     function randomImage() {
         let randomIndex = Math.floor(Math.random() * slides.length);
-        // Only avoid repeating the same index immediately
         while (randomIndex === previousIndex) {
             randomIndex = Math.floor(Math.random() * slides.length);
         }
@@ -192,27 +130,14 @@ $(function() {
     }
 
     function setSlideShow(slides) {
-        // Show first slide
         setSlide(0);
     }
 
-    // Bind events with jQuery
     $nextBtn.on('click', nextImage);
     $randomBtn.on('click', randomImage);
 
-    // Keyboard support: left = previous, right = next, r = random
-    $(document).on('keydown', function(e) {
-        if (e.key === 'ArrowRight') {
-            nextImage();
-        } else if (e.key === 'r' || e.key === 'R') {
-            randomImage();
-        }
-    });
-
-    // Initialize
     setSlideShow(slides);
 
-    // Update time every second; update background only when hour changes
     setInterval(() => setBackgroundWithFade(images), 1000);
 });
 
