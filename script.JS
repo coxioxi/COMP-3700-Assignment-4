@@ -111,6 +111,7 @@ $(function() {
         $slideDescription.text(s.getDescription());
     }
 
+    previousIndex = -1;
     function nextImage() {
         const currentSrc = $slide.attr('src') || '';
         let currentIndex = slides.findIndex(img => currentSrc.includes(img.getURL()));
@@ -121,6 +122,7 @@ $(function() {
     }
 
     function randomImage() {
+        previousIndex = (previousIndex === -1) ? 0 : previousIndex;
         let randomIndex = Math.floor(Math.random() * slides.length);
         while (randomIndex === previousIndex) {
             randomIndex = Math.floor(Math.random() * slides.length);
@@ -129,14 +131,14 @@ $(function() {
         previousIndex = randomIndex;
     }
 
-    function setSlideShow(slides) {
+    function setSlideShow() {
         setSlide(0);
     }
 
     $nextBtn.on('click', nextImage);
     $randomBtn.on('click', randomImage);
 
-    setSlideShow(slides);
+    setSlideShow();
 
     setInterval(() => setBackgroundWithFade(images), 1000);
 });
